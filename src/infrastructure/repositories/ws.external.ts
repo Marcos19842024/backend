@@ -1,4 +1,4 @@
-import { Client, LocalAuth } from "whatsapp-web.js";
+import { Client, LocalAuth, MessageMedia } from "whatsapp-web.js";
 import { image as imageQr } from "qr-image";
 import LeadExternal from "../../domain/lead-external.repository";
 
@@ -35,7 +35,6 @@ class WsTransporter extends Client implements LeadExternal {
     });
 
     this.on("qr", (qr) => {
-      console.log("Escanea el codigo QR que esta en la carepta tmp");
       this.generateImage(qr);
     });
   }
@@ -45,14 +44,48 @@ class WsTransporter extends Client implements LeadExternal {
    * @param lead
    * @returns
    */
-  async sendMsg(lead: { message: string; phone: string }): Promise<any> {
+  async sendMsg(lead: { message: string; phone: string; pathtofiles: Array<string> }): Promise<any> {
     try {
       if (!this.status) return Promise.resolve({ error: "WAIT_LOGIN" });
-      const { message, phone } = lead;
-      const response = await this.sendMessage(`${phone}@c.us`, message);
-      return { id: response.id.id };
+      const url = process.env.URL + 'media/';
+      const { message, phone, pathtofiles } = lead;
+      var result;
+      if(pathtofiles?.length > 0) {
+        let pathtofile = url + pathtofiles[0];
+        let filename = pathtofiles[0];
+        result = await this.sendMessage(`${phone}@c.us`, await MessageMedia.fromUrl(pathtofile,{filename}));
+        if(pathtofiles.length > 1) {
+          for(let i = 1; i < pathtofiles.length; i++) {
+            let pathtofile = url + pathtofiles[i];
+            let filename = pathtofiles[i];
+            result = await this.sendMessage(`${phone}@c.us`, await MessageMedia.fromUrl(pathtofile,{filename}));
+          };
+        }
+      }
+      result = await this.sendMessage(`${phone}@c.us`, message);
+      const response = { id: result.id.id };
+      return Promise.resolve(response);
     } catch (e: any) {
       return Promise.resolve({ error: e.message });
+    }
+  }
+
+  async sendStatus(): Promise<any> {
+    let connection = this.status;
+    if(connection) {
+      const data = {
+        err: false,
+        status: "400",
+        statusText: "Connected",
+      }
+      return Promise.resolve(data);
+    } else {
+      const data = {
+        err: true,
+        status: "500",
+        statusText: "Internal Server Error",
+      }
+      return Promise.resolve(data);
     }
   }
 
@@ -62,10 +95,10 @@ class WsTransporter extends Client implements LeadExternal {
 
   private generateImage = (base64: string) => {
     const path = `${process.cwd()}/tmp`;
-    let qr_svg = imageQr(base64, { type: "svg", margin: 4 });
-    qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.svg`));
+    let qr_svg = imageQr(base64, { type: "png", margin: 4 });
+    qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.png`));
+    console.log(`⚡ Escanea el codigo QR que esta en la carepta tmp⚡`);
     console.log(`⚡ Recuerda que el QR se actualiza cada minuto ⚡'`);
-    console.log(`⚡ Actualiza F5 el navegador para mantener el mejor QR⚡`);
   };
 }
 

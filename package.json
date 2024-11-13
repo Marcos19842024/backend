@@ -28,7 +28,7 @@
     "twilio": "^3.80.1",
     "uuid": "^8.3.2",
     "venom-bot": "^5.1.0",
-    "whatsapp-web.js": "^1.19.4"
+    "whatsapp-web.js": "^1.26.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

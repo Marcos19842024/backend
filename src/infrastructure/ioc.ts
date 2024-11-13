@@ -1,5 +1,5 @@
 import { ContainerBuilder } from "node-dependency-injection";
-import { VenomTransporter } from "./repositories/venom.repository";
+import WsTransporter from "./repositories/ws.external";
 import { LeadCreate } from "../application/lead.create";
 import LeadCtrl from "./controller/lead.ctrl";
 import { StatusCreate } from "../application/status.create";
@@ -7,10 +7,7 @@ import StatusCtrl from "./controller/status.ctrl";
 
 const container = new ContainerBuilder();
 
-/**
- * Iniciamos servicio de WS / Bot / Twilio
- */
-container.register("ws.transporter", VenomTransporter);
+container.register("ws.transporter", WsTransporter);
 
 const wsTransporter = container.get("ws.transporter");
 
