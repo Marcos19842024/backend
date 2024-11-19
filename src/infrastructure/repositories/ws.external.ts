@@ -12,10 +12,12 @@ class WsTransporter extends Client implements LeadExternal {
     super({
       authStrategy: new LocalAuth(),
       puppeteer: {
+        executablePath: '/usr/bin/chromium-browser',
         headless: true,
         args: [
           "--disable-setuid-sandbox",
           "--unhandled-rejections=strict",
+          "--no-sandbox"
         ],
       },
     });
