@@ -4,3 +4,6 @@ tmp/*
 !tmp/.gitkeep
 .wwebjs_auth
 tokens
+.wwebjs_cache
+key
+key.pub
