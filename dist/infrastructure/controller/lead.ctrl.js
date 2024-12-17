@@ -12,9 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class LeadCtrl {
     constructor(leadCreator) {
         this.leadCreator = leadCreator;
-        this.sendCtrl = ({ body }, res) => __awaiter(this, void 0, void 0, function* () {
-            const { message, phone, pathtofiles } = body;
-            const response = yield this.leadCreator.sendMessage({ message, phone, pathtofiles });
+        this.sendCtrl = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { message, phone, pathtofiles } = req.body;
+            const client = req.params.name;
+            const response = yield this.leadCreator.sendMessage({ client, message, phone, pathtofiles });
             res.send(response);
         });
     }

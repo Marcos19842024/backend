@@ -14,9 +14,9 @@ class LeadCreate {
     constructor(repositories) {
         this.leadExternal = repositories;
     }
-    sendMessage({ message, phone, pathtofiles, }) {
+    sendMessage({ client, message, phone, pathtofiles, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const responseExSave = yield this.leadExternal.sendMsg({ message, phone, pathtofiles }); //enviar a ws
+            const responseExSave = yield this.leadExternal.sendMsg({ client, message, phone, pathtofiles }); //enviar a ws
             return responseExSave;
         });
     }

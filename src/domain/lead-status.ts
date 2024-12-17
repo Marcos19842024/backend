@@ -1,3 +1,3 @@
 export default interface LeadStatus {
-    sendStatus():Promise<any>
+    getSts(client:string):Promise<any>
 }

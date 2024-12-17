@@ -7,7 +7,6 @@ require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const router_1 = __importDefault(require("./infrastructure/router"));
-//import path from "path";
 const port = process.env.PORT || 3001;
 const path = `${process.cwd()}/`;
 const app = (0, express_1.default)();

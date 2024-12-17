@@ -8,6 +8,6 @@ const leadCtrl: LeadCtrl = container.get("lead.ctrl");
 /**
  * http://localhost/send POST
  */
-router.post("/", logMiddleware, leadCtrl.sendCtrl);
+router.post("/:name", logMiddleware, leadCtrl.sendCtrl);
 
 export { router };

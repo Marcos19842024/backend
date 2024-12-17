@@ -2,7 +2,6 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import routes from "./infrastructure/router"
-//import path from "path";
 
 const port = process.env.PORT || 3001
 const path = `${process.cwd()}/`

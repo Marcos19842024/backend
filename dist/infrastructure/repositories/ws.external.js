@@ -29,8 +29,8 @@ class WsTransporter extends whatsapp_web_js_1.Client {
         this.status = false;
         this.generateImage = (base64) => {
             const path = `${process.cwd()}/tmp`;
-            let qr_svg = (0, qr_image_1.image)(base64, { type: "png", margin: 4 });
-            qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.png`));
+            let qr_png = (0, qr_image_1.image)(base64, { type: "png", margin: 4 });
+            qr_png.pipe(require("fs").createWriteStream(`${path}/qr.png`));
             console.log(`⚡ Escanea el codigo QR que esta en la carepta tmp⚡`);
             console.log(`⚡ Recuerda que el QR se actualiza cada minuto ⚡'`);
         };
@@ -83,29 +83,35 @@ class WsTransporter extends whatsapp_web_js_1.Client {
             }
         });
     }
-    sendStatus() {
+    getSts(client) {
         return __awaiter(this, void 0, void 0, function* () {
-            let connection = this.status;
-            if (connection) {
-                const data = {
-                    err: false,
-                    status: "400",
-                    statusText: "Connected",
-                };
-                return Promise.resolve(data);
+            let data;
+            if (client == "Baalak'") {
+                let connection = this.status;
+                if (connection) {
+                    data = {
+                        err: false,
+                        status: "400",
+                        statusTex: "Connected"
+                    };
+                }
+                else {
+                    data = {
+                        err: true,
+                        status: "500",
+                        statusText: "Offline"
+                    };
+                }
             }
             else {
-                const data = {
+                data = {
                     err: true,
                     status: "500",
-                    statusText: "Internal Server Error",
+                    statusText: `Acces denied, ${client} is not registered`
                 };
-                return Promise.resolve(data);
             }
+            return Promise.resolve(data);
         });
-    }
-    getStatus() {
-        return this.status;
     }
 }
 exports.default = WsTransporter;

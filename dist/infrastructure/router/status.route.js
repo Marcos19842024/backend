@@ -13,4 +13,4 @@ const statusCtrl = ioc_1.default.get("status.ctrl");
 /**
  * http://localhost/status GET
  */
-router.get("/", log_1.logMiddleware, statusCtrl.statusCtrl);
+router.get("/:name", log_1.logMiddleware, statusCtrl.statusCtrl);

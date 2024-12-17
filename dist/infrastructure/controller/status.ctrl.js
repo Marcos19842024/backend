@@ -12,8 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class StatusCtrl {
     constructor(statusCreator) {
         this.statusCreator = statusCreator;
-        this.statusCtrl = (_req, res) => __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.statusCreator.sendStatus();
+        this.statusCtrl = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const client = req.params.name;
+            const response = yield this.statusCreator.getStatus(client);
             res.json(response);
         });
     }

@@ -13,4 +13,4 @@ const leadCtrl = ioc_1.default.get("lead.ctrl");
 /**
  * http://localhost/send POST
  */
-router.post("/", log_1.logMiddleware, leadCtrl.sendCtrl);
+router.post("/:name", log_1.logMiddleware, leadCtrl.sendCtrl);

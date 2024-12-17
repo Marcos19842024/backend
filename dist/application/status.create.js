@@ -14,9 +14,9 @@ class StatusCreate {
     constructor(repositories) {
         this.leadStatus = repositories;
     }
-    sendStatus() {
+    getStatus(client) {
         return __awaiter(this, void 0, void 0, function* () {
-            const responseStatus = yield this.leadStatus.sendStatus(); //checar status de la sesion de ws
+            const responseStatus = yield this.leadStatus.getSts(client); //checar status de la sesion de ws
             return responseStatus;
         });
     }
